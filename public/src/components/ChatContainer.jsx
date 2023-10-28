@@ -23,7 +23,7 @@ const ChatContainer = ({currentChat,currentUser,socket}) => {
     };}
   
     fetchData();
-  }, [currentChat,currentUser._id]);
+  }, [currentChat]);
 
   const handleSendMsg=async(msg)=>{
   await axios.post(sendMessageRoute,{
@@ -43,13 +43,13 @@ const ChatContainer = ({currentChat,currentUser,socket}) => {
    
   };
 
-  useEffect(() => {
-    if (socket.current) {
-      socket.current.on("msg-recieve", (msg) => {
-        setArrivalMessage({ fromSelf: false, message: msg });
-      });
+  useEffect(()=>{
+    if(socket.current){
+      socket.current.on("msg-recieve",(msg)=>{
+        setArrivalMessage({fromSelf:false, message:msg})
+      })
     }
-  }, [socket]);
+  },[])
 
   useEffect(()=>{
     arrivalMessage && setMessages((prev)=>[...prev,arrivalMessage]);
